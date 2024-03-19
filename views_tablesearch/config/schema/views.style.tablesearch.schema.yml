@@ -1,5 +1,5 @@
 # Schema for the views style plugins.
-views.style.tablesaerch:
+views.style.tablesearch:
   type: views_style
   label: 'Table search'
   mapping:
@@ -45,7 +45,7 @@ views.style.tablesaerch:
       label: 'Override normal sorting if click sorting is used'
     sticky:
       type: boolean
-      label: 'Enable Drupal style "sticky" table headers (Javascript)'
+      label: 'Enable Drupal style "sticky" table headers (JavaScript)'
     summary:
       type: label
       label: 'Summary title'

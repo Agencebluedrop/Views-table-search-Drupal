@@ -2,12 +2,6 @@ name: Views TableSearch
 type: module
 description: 'Provides a View display style that includes a javascript search inside a table rendered result.'
 package: Views
-# core: '8.x'
+core_version_requirement: ^9 || ^10
 dependencies:
   - drupal:views
-
-# Information added by Drupal.org packaging script on 2017-07-23
-version: '8.x-1.x-dev'
-core: '8.x'
-project: 'views_tablesearch'
-datestamp: 1500849844

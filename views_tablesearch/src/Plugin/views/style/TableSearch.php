@@ -428,14 +428,14 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
       '#type' => 'textfield',
       '#title' => $this->t('Search label'),
       '#description' => $this->t('The label to appear near the search input in the view'),
-      '#default_value' => $options['searchlabel'] != '' ? t($options['searchlabel']) : '',
+      '#default_value' => $this->options['searchlabel'] != '' ? t($this->options['searchlabel']) : '',
       '#maxlength' => 255,
     ];
     $form['casesensitivelabel'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Case sensitive label'),
       '#description' => $this->t('The label to appear near the case sensitive option boolean in the view'),
-      '#default_value' => $options['casesensitivelabel'] != '' ? t($options['casesensitivelabel']) : '',
+      '#default_value' => $this->options['casesensitivelabel'] != '' ? t($this->options['casesensitivelabel']) : '',
       '#maxlength' => 255,
     ];
     $form['casesensitivesearch'] = [

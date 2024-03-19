@@ -8,6 +8,7 @@
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Template\Attribute;
 use Drupal\Core\Url;
+use Drupal\Core\Utility\TableSort;
 
 /**
  * Template_preprocess_views_view_tablesearch.
@@ -44,7 +45,7 @@ function template_preprocess_views_view_tablesearch(&$variables) {
   // working URLs.
   $route_name = !empty($view->live_preview) ? '<current>' : '<none>';
 
-  $query = tablesort_get_query_parameters();
+  $query = TableSort::getQueryParameters(\Drupal::request());
   if (isset($view->exposed_raw_input)) {
     $query += $view->exposed_raw_input;
   }
@@ -289,7 +290,7 @@ function template_preprocess_views_view_tablesearch(&$variables) {
 
   $size = count($variables['rows']);
 
-  foreach ($variables['header'] as $field => $column) {
+  foreach ($variables['rows'][0]['columns'] as $field => $column) {
     for ($i = 0; $i < $size; $i++) {
       $variables['rows'][$i]['columns'][$field]['tablesearchable'] = $searchable[$field];
     }
