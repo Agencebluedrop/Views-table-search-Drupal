@@ -1,5 +1,5 @@
 views_tablesearch:
-  version: 1.x
+  version: 2.x
   css:
     theme:
       css/views_tablesearch.css: {}

@@ -26,8 +26,9 @@
  *     used.
  * - responsive: A flag indicating whether table is responsive.
  * - sticky: A flag indicating whether table header is sticky.
+ * - summary_element: A render array with table summary information (if any).
  *
- * @see template_preprocess_views_view_table()
+ * @see template_preprocess_views_view_tablesearch()
  *
  * @ingroup themeable
  */
@@ -37,7 +38,8 @@
     'cols-' ~ header|length,
     responsive ? 'responsive-enabled',
     sticky ? 'sticky-enabled',
-	'table-ts'	
+	  'table-ts',
+    'views-table'
   ]
 %}
 {% if case_sensitive_search %}
@@ -78,7 +80,7 @@
               set column_classes = [
                 'views-field',
                 'views-field-' ~ fields[key],
-				'views-tableseachable-' ~ column.tablesearchable
+				        'views-tablesearchable-' ~ column.tablesearchable
               ]
             %}
           {% endif %}
@@ -86,14 +88,14 @@
             {%- if column.wrapper_element -%}
               <{{ column.wrapper_element }}>
                 {%- if column.url -%}
-                  <a href="{{ column.url }}" title="{{ column.title }}">{{ column.content }}{{ column.sort_indicator }}</a>
+                  <a href="{{ column.url }}" title="{{ column.title }}" rel="nofollow">{{ column.content }}{{ column.sort_indicator }}</a>
                 {%- else -%}
                   {{ column.content }}{{ column.sort_indicator }}
                 {%- endif -%}
               </{{ column.wrapper_element }}>
             {%- else -%}
               {%- if column.url -%}
-                <a href="{{ column.url }}" title="{{ column.title }}">{{ column.content }}{{ column.sort_indicator }}</a>
+                <a href="{{ column.url }}" title="{{ column.title }}" rel="nofollow">{{ column.content }}{{ column.sort_indicator }}</a>
               {%- else -%}
                 {{- column.content }}{{ column.sort_indicator }}
               {%- endif -%}
@@ -111,7 +113,7 @@
             {%
               set column_classes = [
                 'views-field',
-				'views-tableseachable-' ~ column.tablesearchable
+				        'views-tablesearchable-' ~ column.tablesearchable
               ]
             %}
             {% for field in column.fields %}
