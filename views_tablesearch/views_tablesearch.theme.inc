@@ -297,8 +297,6 @@ function template_preprocess_views_view_tablesearch(&$variables) {
   }
 }
 
-
-
 /**
  * Implements hook_theme_suggestions_HOOK().
  */
