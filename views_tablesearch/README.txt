@@ -9,11 +9,12 @@ INTRODUCTION
 REQUIREMENTS
 ------------
 
-  * Views table search requires Drupal 8 & the core views module enabled.
+  * Views table search requires Drupal & the core views module enabled.
+
 
 INSTALLATION
 ------------
-  * Install as you would normally install a contributed Drupal module. See the <a href='http://drupal.org/documentation/install/modules-themes/modules-8'> Drupal 8 instructions</a> if required in the Drupal documentation for further information. 
+  * Install as you would normally install a contributed Drupal module. See the <a href='https://www.drupal.org/docs/extending-drupal/installing-modules'>Drupal Instructions On Installing Modules</a> if required in the Drupal documentation for further information. 
 
 
 CONFIGURATION

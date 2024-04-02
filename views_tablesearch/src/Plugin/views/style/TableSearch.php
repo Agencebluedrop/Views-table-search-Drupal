@@ -5,8 +5,8 @@ namespace Drupal\views_tablesearch\Plugin\views\style;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\views\Plugin\views\wizard\WizardInterface;
 use Drupal\views\Plugin\views\style\StylePluginBase;
+use Drupal\views\Plugin\views\wizard\WizardInterface;
 
 /**
  * Style plugin to render each item as a row in a table.
@@ -76,7 +76,7 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
     $options['sticky'] = ['default' => FALSE];
     $options['order'] = ['default' => 'asc'];
     $options['caption'] = ['default' => ''];
-    $options['serachlabel'] = ['default' => t('Search')];
+    $options['searchlabel'] = ['default' => $this->t('Search')->render()];
     $options['characters'] = ['default' => '3'];
     $options['highlight_color'] = ['default' => '#ccc'];
     $options['summary'] = ['default' => ''];
@@ -149,9 +149,10 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
 
   /**
    * Normalize a list of columns based upon the fields that are available.
-   * This compares the fields stored in the style handler
-   * to the list of fields actually in the view, removing fields that
-   * have been removed and adding new fields in their own column.
+   *
+   * This compares the fields stored in the style handler to the list of fields
+   * actually in the view, removing fields that have been removed and adding new
+   * fields in their own column.
    *
    * - Each field must be in a column.
    * - Each column must be based upon a field, and that field
@@ -159,10 +160,10 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
    * - Any fields not currently represented must be added.
    * - Columns must be re-ordered to match the fields.
    *
-   * @param $columns
+   * @param array $columns
    *   An array of all fields; the key is the id of the field and the
    *   value is the id of the column the field should be in.
-   * @param $fields
+   * @param array $fields
    *   The fields to use for the columns. If not provided, they will
    *   be requested from the current display. The running render should
    *   send the fields through, as they may be different than what the
@@ -172,6 +173,7 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
    *   An array of all the sanitized columns.
    */
   public function sanitizeColumns($columns, $fields = NULL) {
+
     $sanitized = [];
     if ($fields === NULL) {
       $fields = $this->displayHandler->getOption('fields');
@@ -365,7 +367,7 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
         '#title_display' => 'invisible',
         '#type' => 'textfield',
         '#size' => 10,
-        '#default_value' => isset($this->options['info'][$field]['separator']) ? $this->options['info'][$field]['separator'] : '',
+        '#default_value' => $this->options['info'][$field]['separator'] ?? '',
         '#states' => [
           'visible' => [
             $column_selector => ['value' => $field],
@@ -376,7 +378,7 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
         '#title' => $this->t('Hide empty column for @field', ['@field' => $field]),
         '#title_display' => 'invisible',
         '#type' => 'checkbox',
-        '#default_value' => isset($this->options['info'][$field]['empty_column']) ? $this->options['info'][$field]['empty_column'] : FALSE,
+        '#default_value' => $this->options['info'][$field]['empty_column'] ?? FALSE,
         '#states' => [
           'visible' => [
             $column_selector => ['value' => $field],
@@ -387,7 +389,7 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
       $form[$field]['tablesearchable'] = [
         '#title' => $this->t('Table search:  @field', ['@field' => $field]),
         '#type' => 'checkbox',
-        '#default_value' => isset($this->options[$field]['tablesearchable']) ? $this->options[$field]['tablesearchable'] : FALSE,
+        '#default_value' => $this->options[$field]['tablesearchable'] ?? FALSE,
         '#states' => [
           'visible' => [
             $column_selector => ['value' => $field],
@@ -398,7 +400,7 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
         '#title' => $this->t('Responsive setting for @field', ['@field' => $field]),
         '#title_display' => 'invisible',
         '#type' => 'select',
-        '#default_value' => isset($this->options['info'][$field]['responsive']) ? $this->options['info'][$field]['responsive'] : '',
+        '#default_value' => $this->options['info'][$field]['responsive'] ?? '',
         '#options' => [
           '' => $this->t('High'),
           RESPONSIVE_PRIORITY_MEDIUM => $this->t('Medium'),
@@ -428,14 +430,14 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
       '#type' => 'textfield',
       '#title' => $this->t('Search label'),
       '#description' => $this->t('The label to appear near the search input in the view'),
-      '#default_value' => $this->options['searchlabel'] != '' ? t($this->options['searchlabel']) : '',
+      '#default_value' => $this->options['searchlabel'] != '' ? $this->t($this->options['searchlabel']) : '',
       '#maxlength' => 255,
     ];
     $form['casesensitivelabel'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Case sensitive label'),
       '#description' => $this->t('The label to appear near the case sensitive option boolean in the view'),
-      '#default_value' => $this->options['casesensitivelabel'] != '' ? t($this->options['casesensitivelabel']) : '',
+      '#default_value' => $this->options['casesensitivelabel'] != '' ? $this->t($this->options['casesensitivelabel']) : '',
       '#maxlength' => 255,
     ];
     $form['casesensitivesearch'] = [
@@ -516,7 +518,7 @@ class TableSearch extends StylePluginBase implements CacheableDependencyInterfac
   public function getCacheContexts() {
     $contexts = [];
 
-    foreach ($this->options['info'] as $field_id => $info) {
+    foreach ($this->options['info'] as $info) {
       if (!empty($info['sortable'])) {
         // The rendered link needs to play well with any other query parameter
         // used on the page, like pager and exposed filter.
